@@ -34,12 +34,12 @@ export default async function Header() {
                     <div style={{ display: 'flex', gap: 16, marginRight: 8 }}>
                         <span style={{ color: 'var(--text2)', fontSize: 12 }}>
                             <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)', fontSize: 16 }}>
-                                {stats.totalMemes}
+                                {stats.totalMemes || 0}
                             </span> memes
                         </span>
                         <span style={{ color: 'var(--text2)', fontSize: 12 }}>
                             <span style={{ color: 'var(--accent2)', fontFamily: 'var(--font-display)', fontSize: 16 }}>
-                                {stats.totalVotes}
+                                {stats.totalVotes || 0}
                             </span> votos
                         </span>
                     </div>
