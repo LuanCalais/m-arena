@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { getMemes, getStats } from "./lib/actions";
 
-export default function Home() {
+export default async function Home() {
 
-  const [memes, stats] = [0, 0]; // TODO: fetch from API 
-
+  const [memes, stats] = await Promise.all([await getMemes('hot'), await getStats()]);
   return (
     <div className="container" style={{ padding: '40px 20px' }}>
       <div style={{ textAlign: 'center', marginBottom: 64, padding: '60px 20px', position: 'relative' }}>
@@ -28,19 +28,19 @@ export default function Home() {
         }}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--accent)' }}>
-              {memes}
+              {stats.totalMemes}
             </div>
             <div style={{ fontSize: 10, color: 'var(--text2)', letterSpacing: 2 }}>MEMES</div>
           </div>
           <div style={{ width: 1, background: 'var(--border)' }} />
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, color: 'var(--accent2)' }}>
-              {stats}
+              {stats.totalVotes}
             </div>
             <div style={{ fontSize: 10, color: 'var(--text2)', letterSpacing: 2 }}>VOTOS</div>
           </div>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-            <Link href="/criar" className="btn btn-primary">🎨 Criar Meme</Link>
+            <Link href="/create" className="btn btn-primary">🎨 Criar Meme</Link>
             <Link href="/arena" className="btn btn-secondary">🏆 Ver Arena</Link>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
 
       </div>
-      {memes === 0 ? (
+      {memes.length === 0 ? (
         <div style={{
           textAlign: 'center', padding: '80px 20px',
           background: 'var(--surface)', border: '1px dashed var(--border)', borderRadius: 4,
@@ -61,7 +61,7 @@ export default function Home() {
           <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text2)', marginBottom: 16 }}>
             A ARENA ESTÁ VAZIA
           </div>
-          <Link href="/criar" className="btn btn-primary">Seja o primeiro herói</Link>
+          <Link href="/create" className="btn btn-primary">Seja o primeiro herói</Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>

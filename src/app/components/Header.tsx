@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { getStats } from "../lib/actions";
 
-export default function Header() {
+export default async function Header() {
 
-    const [memes, stats] = [0, 0]; // TODO: fetch from API
+    const stats = await getStats();
 
     return (
         <header style={{
@@ -33,12 +34,12 @@ export default function Header() {
                     <div style={{ display: 'flex', gap: 16, marginRight: 8 }}>
                         <span style={{ color: 'var(--text2)', fontSize: 12 }}>
                             <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-display)', fontSize: 16 }}>
-                                {memes}
+                                {stats.totalMemes}
                             </span> memes
                         </span>
                         <span style={{ color: 'var(--text2)', fontSize: 12 }}>
                             <span style={{ color: 'var(--accent2)', fontFamily: 'var(--font-display)', fontSize: 16 }}>
-                                {stats}
+                                {stats.totalVotes}
                             </span> votos
                         </span>
                     </div>
