@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getDb } from "./db";
 import { Meme } from "../types/meme";
 import { Stats } from "../types/api";
+import { revalidatePath } from "next/cache";
 
 function getSession(): string {
   const cookieStore = cookies();
@@ -16,6 +17,11 @@ export async function getMemes(sort: "hot" | "new" = "hot"): Promise<Meme[]> {
   const orderBy =
     sort === "hot" ? "votes DESC, created_at DESC" : "created_at DESC";
   return db.prepare(`SELECT * FROM memes ORDER BY ${orderBy}`).all() as Meme[];
+}
+
+export async function getMemeById(id: string) {
+  const db = getDb();
+  return db.prepare("SELECT * FROM memes WHERE id = ?").get(id);
 }
 
 export async function getStats(): Promise<Stats> {
@@ -35,4 +41,52 @@ export async function getStats(): Promise<Stats> {
 
   const topMeme = topMemeResult || null;
   return { totalMemes, totalVotes, topMeme };
+}
+
+export async function voteMeme(
+  memeId: string,
+): Promise<{ success: boolean; message: string; votes: number }> {
+  const db = getDb();
+  const session = getSession();
+
+  const existing = db
+    .prepare("SELECT 1 FROM votes WHERE meme_id = ? AND user_session = ?")
+    .get(memeId, session);
+
+  if (existing) {
+    const meme = db
+      .prepare("SELECT votes FROM memes WHERE id = ?")
+      .get(memeId) as { votes: number };
+    return {
+      success: false,
+      message: "Você já votou nesse meme! 😤",
+      votes: meme?.votes || 0,
+    };
+  }
+
+  db.prepare("INSERT INTO votes (meme_id, user_session) VALUES (?, ?)").run(
+    memeId,
+    session,
+  );
+  db.prepare("UPDATE memes SET votes = votes + 1 WHERE id = ?").run(memeId);
+  const meme = db
+    .prepare("SELECT votes FROM memes WHERE id = ?")
+    .get(memeId) as { votes: number };
+
+  revalidatePath("/");
+  revalidatePath(`/meme/${memeId}`);
+  return {
+    success: true,
+    message: "🔥 Voto registrado!",
+    votes: meme?.votes || 0,
+  };
+}
+
+export async function hasVoted(memeId: string): Promise<boolean> {
+  const db = getDb();
+  const session = getSession();
+  const existing = db
+    .prepare("SELECT 1 FROM votes WHERE meme_id = ? AND user_session = ?")
+    .get(memeId, session);
+  return !!existing;
 }
