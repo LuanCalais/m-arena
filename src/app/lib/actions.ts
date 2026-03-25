@@ -6,6 +6,7 @@ import { getDb } from "./db";
 import { Meme } from "../types/meme";
 import { Stats } from "../types/api";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 function getSession(): string {
   const cookieStore = cookies();
@@ -89,4 +90,30 @@ export async function hasVoted(memeId: string): Promise<boolean> {
     .prepare("SELECT 1 FROM votes WHERE meme_id = ? AND user_session = ?")
     .get(memeId, session);
   return !!existing;
+}
+
+export async function createMeme(formData: FormData) {
+  const db = getDb();
+  const id = uuidv4();
+
+  const title = String(formData.get("title") || "").trim();
+  const topText = String(formData.get("top_text") || "").trim();
+  const bottomText = String(formData.get("bottom_text") || "").trim();
+  const template = String(formData.get("template") || "drake");
+  const author = String(formData.get("author") || "Anônimo").trim();
+
+  if (!title || (!topText && !bottomText)) {
+    throw new Error("Preencha o título e pelo menos um texto!");
+  }
+
+  db.prepare(
+    `
+      INSERT INTO memes (id, title, top_text, bottom_text, template, author)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `,
+  ).run(id, title, topText, bottomText, template, author);
+
+  revalidatePath("/");
+  revalidatePath("/arena");
+  redirect(`/meme/${id}`);
 }

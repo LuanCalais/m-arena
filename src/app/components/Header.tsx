@@ -46,7 +46,7 @@ export default async function Header() {
                     <Link href="/arena" className="btn btn-secondary" style={{ fontSize: 14, padding: '6px 16px' }}>
                         🏆 Arena
                     </Link>
-                    <Link href="/criar" className="btn btn-primary" style={{ fontSize: 14, padding: '6px 16px' }}>
+                    <Link href="/create" className="btn btn-primary" style={{ fontSize: 14, padding: '6px 16px' }}>
                         + Criar Meme
                     </Link>
                 </nav>
