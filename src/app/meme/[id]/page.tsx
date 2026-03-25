@@ -1,5 +1,5 @@
-import { getMemeById, hasVoted } from "@/app/lib/actions";
-import { getTemplate } from "@/app/lib/templates";
+import { getMemeById, hasVoted } from "@/lib/actions";
+import { getTemplate } from "@/lib/templates";
 import { Meme } from "@/app/types/meme";
 import { Metadata } from "next";
 import Link from "next/link";

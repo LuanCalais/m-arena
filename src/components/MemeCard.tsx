@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { Meme } from "../types/meme";
+import { Meme } from "../app/types/meme";
 import { getTemplate } from "../lib/templates";
 import Link from "next/link";
 import MemeVisual from "./MemeVisual";

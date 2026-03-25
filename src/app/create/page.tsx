@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from "react"
-import { createMeme } from "../lib/actions"
-import { MEME_TEMPLATES } from "../lib/templates"
-import MemePreview from "../components/MemePreview"
+import { createMeme } from "../../lib/actions"
+import { MEME_TEMPLATES } from "../../lib/templates"
+import MemePreview from "../../components/MemePreview"
 
 export default function CreatePage() {
     const [topText, setTopText] = useState('')

@@ -3,8 +3,8 @@
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { getDb } from "./db";
-import { Meme } from "../types/meme";
-import { Stats } from "../types/api";
+import { Meme } from "../app/types/meme";
+import { Stats } from "../app/types/api";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

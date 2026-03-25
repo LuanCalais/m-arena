@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Stats } from "../types/api";
+import { Stats } from "../app/types/api";
 
 export default function MainContent({ stats }: { stats: Stats }) {
     return (

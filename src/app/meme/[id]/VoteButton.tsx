@@ -1,6 +1,6 @@
 'use client'
 
-import { voteMeme } from "@/app/lib/actions"
+import { voteMeme } from "@/lib/actions"
 import { useState } from "react"
 
 export default function VoteButton({ memeId, initialVotes, initialVoted }: {

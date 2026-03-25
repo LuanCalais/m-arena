@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Meme } from "../types/meme";
+import { Meme } from "../app/types/meme";
 import MemeCard from "./MemeCard";
 
 export default function MemesList({ memes }: { memes: Meme[] }) {

@@ -1,5 +1,5 @@
 import { getTemplate } from "../lib/templates";
-import { Meme } from "../types/meme";
+import { Meme } from "../app/types/meme";
 
 export default function MemeVisual({ meme }: { meme: Meme }) {
     const tmpl = getTemplate(meme.template);

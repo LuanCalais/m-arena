@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "seed": "node src/app/scripts/seed.js",
+    "seed": "node ./scripts/seed.js",
     "start": "next start",
     "lint": "next lint"
   },

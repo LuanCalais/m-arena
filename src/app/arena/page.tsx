@@ -1,9 +1,9 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
-import { getMemes } from '../lib/actions'
+import { getMemes } from '../../lib/actions'
 import { Meme } from '../types/meme'
-import MemeCard from '../components/MemeCard'
+import MemeCard from '../../components/MemeCard'
 
 
 type Props = { searchParams: { sort?: string } }
