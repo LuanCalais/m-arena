@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🔥 MemeMaker Arena
 
-## Getting Started
+Arena de batalha de memes feita com Next.js 14. Crie memes, vote nos melhores e conquiste o ranking.
 
-First, run the development server:
+Projeto criado para treinar os principais conceitos do Next.js App Router na prática.
+
+---
+
+## 🚀 Rodando localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx create-next-app@14.2.0 meme-arena --typescript --app --no-tailwind --no-eslint --src-dir=false --import-alias="@/*"
+cd meme-arena
+npm install better-sqlite3 uuid
+npm install -D @types/better-sqlite3
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Substitua os arquivos pelos do projeto, depois:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run seed   # popula o banco com memes de exemplo
+npm run dev    # http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🐳 Rodando com Docker
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker compose up --build
+docker compose exec app node scripts/seed.js
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 📁 Estrutura
 
-## Deploy on Vercel
+```
+meme-arena/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx           # Layout raiz (Server Component)
+│   │   ├── page.tsx             # Home com ISR
+│   │   ├── loading.tsx          # Skeleton automático
+│   │   ├── not-found.tsx        # Página 404
+│   │   ├── globals.css
+│   │   ├── arena/
+│   │   │   └── page.tsx         # Ranking com searchParams
+│   │   ├── criar/
+│   │   │   └── page.tsx         # Formulário com Server Action
+│   │   ├── meme/
+│   │   │   └── [id]/
+│   │   │       ├── page.tsx     # Rota dinâmica + generateMetadata
+│   │   │       └── VoteButton.tsx
+│   │   └── api/
+│   │       └── memes/
+│   │           ├── route.ts
+│   │           └── [id]/vote/
+│   │               └── route.ts
+│   ├── components/
+│   │   └── MemeCard.tsx
+│   └── lib/
+│       ├── actions.ts           # Server Actions
+│       ├── db.ts                # SQLite
+│       └── templates.ts
+├── scripts/
+│   └── seed.js
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
+└── next.config.js
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 🗄️ Ver o banco de dados
+
+**Via terminal:**
+
+```bash
+sqlite3 data/memes.db
+.tables
+SELECT * FROM memes;
+.quit
+```
+
+**Via GUI:** [DB Browser for SQLite](https://sqlitebrowser.org/) — abre o arquivo `data/memes.db`.
+
+---
+
+## 📡 API
+
+```bash
+GET /api/memes
+GET /api/memes?sort=new
+GET /api/memes?limit=10
+
+POST /api/memes
+Content-Type: application/json
+{ "title": "...", "top_text": "...", "bottom_text": "...", "template": "drake", "author": "..." }
+
+POST /api/memes/:id/vote
+
+## 🛠️ Stack
+
+- **Next.js 14** — App Router
+- **TypeScript**
+- **better-sqlite3** — banco local, zero configuração
+- **CSS puro** com variáveis CSS
+- **Docker** com multi-stage build
+```

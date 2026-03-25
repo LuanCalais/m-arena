@@ -1,4 +1,5 @@
-import Link from "next/link";
+export const dynamic = 'force-dynamic'
+
 import { getMemes, getStats } from "../lib/actions";
 import MemesList from "../components/MemesList";
 import MainContent from "../components/MainContent";
