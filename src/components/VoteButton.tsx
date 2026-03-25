@@ -3,10 +3,11 @@
 import { voteMeme } from "@/lib/actions"
 import { useState } from "react"
 
-export default function VoteButton({ memeId, initialVotes, initialVoted }: {
+export default function VoteButton({ memeId, initialVotes, initialVoted, isReadOnly = false }: {
     memeId: string
     initialVotes: number
     initialVoted: boolean
+    isReadOnly?: boolean
 }) {
 
     const [votes, setVotes] = useState(initialVotes)
@@ -15,7 +16,7 @@ export default function VoteButton({ memeId, initialVotes, initialVoted }: {
     const [toast, setToast] = useState<string | null>(null)
 
     async function handleVote() {
-        if (voted || loading) return
+        if (voted || loading || isReadOnly) return
         setLoading(true)
         try {
             const res = await voteMeme(memeId)
@@ -41,7 +42,7 @@ export default function VoteButton({ memeId, initialVotes, initialVoted }: {
                 </div>
             )}
             <button
-                className={`btn btn-vote ${voted ? 'voted' : ''}`}
+                className={`btn btn-vote ${voted ? 'voted' : ''} ${isReadOnly ? 'readonly' : ''}`}
                 onClick={handleVote}
                 disabled={voted || loading}
                 style={{ minWidth: 140, fontSize: 20 }}

@@ -4,7 +4,7 @@ import { Meme } from "@/app/types/meme";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import VoteButton from "./VoteButton";
+import VoteButton from "../../../components/VoteButton";
 
 type Props = { params: { id: string } }
 

@@ -5,6 +5,7 @@ import { Meme } from "../app/types/meme";
 import { getTemplate } from "../lib/templates";
 import Link from "next/link";
 import MemeVisual from "./MemeVisual";
+import VoteButton from "./VoteButton";
 
 export default function MemeCard({ meme, initialVoted = false }: { meme: Meme; initialVoted?: boolean }) {
     const [votes, setVotes] = useState(meme.votes)
@@ -47,9 +48,7 @@ export default function MemeCard({ meme, initialVoted = false }: { meme: Meme; i
                     </div>
                 </div>
 
-                <button className={`btn btn-vote ${voted ? 'voted' : ''}`} onClick={handleVote} disabled={voted || loading} style={{ marginTop: 'auto' }}>
-                    {voted ? '✅' : '🔥'} {votes} {votes === 1 ? 'voto' : 'votos'}
-                </button>
+                <VoteButton memeId={meme.id} initialVotes={meme.votes} initialVoted={true} isReadOnly />
             </div>
         </div>
     )
