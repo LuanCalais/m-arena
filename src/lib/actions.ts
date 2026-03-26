@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { getDb } from "./db";
 import { Meme } from "../app/types/meme";
-import { Stats } from "../app/types/api";
+import { DeleteActionReturn, Stats } from "../app/types/api";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -116,4 +116,37 @@ export async function createMeme(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/arena");
   redirect(`/meme/${id}`);
+}
+
+export async function deleteMeme(memeId: string): Promise<DeleteActionReturn> {
+  const db = getDb();
+
+  const meme = db.prepare("SELECT * FROM memes WHERE id = ?").get(memeId);
+  if (!meme)
+    return {
+      id: memeId,
+      message: "Não foi possível encontrar o meme",
+      success: false,
+    };
+
+  const deleteMeme = db.transaction(() => {
+    db.prepare("DELETE FROM votes WHERE meme_id = ?").run(memeId);
+    return db.prepare("DELETE FROM memes WHERE id = ?").run(memeId);
+  });
+
+  const result = deleteMeme();
+
+  if (result.changes === 0) {
+    return {
+      id: memeId,
+      message: "Não foi possível deletar o meme",
+      success: false,
+    };
+  }
+  revalidatePath("/");
+  return {
+    id: memeId,
+    message: "Meme deletado com sucesso",
+    success: true,
+  };
 }

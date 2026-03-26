@@ -216,3 +216,39 @@ select:focus {
   border-color: var(--accent2);
   color: var(--accent2);
 }
+
+.card-container {
+  position: relative;
+}
+
+.delete-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  z-index: 999;
+}
+
+.delete-button:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.delete-button:active {
+  transform: scale(0.95);
+}

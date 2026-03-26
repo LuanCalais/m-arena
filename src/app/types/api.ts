@@ -5,3 +5,9 @@ export type Stats = {
   totalVotes: number;
   topMeme?: Meme | null;
 };
+
+export type DeleteActionReturn = {
+  id: string;
+  message: string;
+  success: boolean;
+};
