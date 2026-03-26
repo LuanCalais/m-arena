@@ -1,12 +1,11 @@
 import { getDb } from "@/lib/db";
-import { error } from "console";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 type Params = { params: { id: string } };
 
-export async function POST(request: NextRequest, { params }: Params) {
+export async function POST(_: NextRequest, { params }: Params) {
   try {
     const db = getDb();
     const meme = db.prepare("SELECT * FROM memes WHERE id = ?").get(params.id);
