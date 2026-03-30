@@ -4,7 +4,7 @@ type Props = { topText: string; bottomText: string; templateId: string }
 
 export default function MemePreview({ topText, bottomText, templateId }: Props) {
     const tmpl = getTemplate(templateId)
-
+    console.log(tmpl)
     return (
         <div style={{
             background: tmpl.bgColor,
@@ -22,6 +22,7 @@ export default function MemePreview({ topText, bottomText, templateId }: Props) 
                 fontSize: 10, color: tmpl.accentColor,
                 fontFamily: 'var(--font-display)', letterSpacing: 2, opacity: 0.7,
             }}>PREVIEW</div>
+
 
             {tmpl.style === 'chaos' && (
                 <div style={{ textAlign: 'center', padding: 24 }}>

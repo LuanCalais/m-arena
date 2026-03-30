@@ -1,0 +1,38 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+pubspec.lock
+
+# Android
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/android/key.properties
+mobile/android/**/*.keystore
+mobile/android/**/*.jks
+
+# iOS
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+mobile/ios/Pods/
+mobile/ios/Runner.xcworkspace/xcshareddata/
+mobile/ios/*.mode1v3
+mobile/ios/*.mode2v3
+mobile/ios/*.perspectivev3
+mobile/ios/*.xcworkspace
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Misc
+*.log
+*.lock
+*.DS_Store
