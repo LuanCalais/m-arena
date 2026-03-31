@@ -5,6 +5,36 @@ import { v4 as uuidv4 } from "uuid";
 
 type Params = { params: { id: string } };
 
+/**
+ * @swagger
+ * /api/memes/{id}/vote:
+ *   post:
+ *     summary: Vota em um meme
+ *     tags: [Votos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID do meme
+ *     responses:
+ *       200:
+ *         description: Voto registrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 votes:
+ *                   type: integer
+ *       404:
+ *         description: Meme não encontrado
+ *       409:
+ *         description: Usuário já votou nesse meme
+ */
 export async function POST(_: NextRequest, { params }: Params) {
   try {
     const db = getDb();
